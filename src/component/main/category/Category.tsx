@@ -2,34 +2,50 @@ import { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { categoryStore } from '../../../store/CategoryStore';
 import { observer } from 'mobx-react-lite';
+import { CategoryModel } from '../../../model';
 
 interface CategoryItemProps {
-  strCategory: string;
+  category: CategoryModel;
 }
 
-export const CategoryItem = ({ strCategory }: CategoryItemProps) => {
+interface StyledCategoryItemProps {
+  clicked?: boolean;
+}
+
+export const CategoryItem = observer(({ category }: CategoryItemProps) => {
+  const isClicked = () => {
+    const res = categoryStore.selectedCategories.find(
+      (item) => item.idCategory === category.idCategory
+    );
+    if (res) return true;
+    return false;
+  };
   return (
-    <StyledCategoryItem>
-      <b>{strCategory}</b>
+    <StyledCategoryItem
+      onClick={() => categoryStore.setCategories(category)}
+      clicked={isClicked()}
+    >
+      <b>{category.strCategory}</b>
     </StyledCategoryItem>
   );
-};
+});
 
 export const Category = observer(() => {
   const getCategories = async () => {
     await categoryStore.getCatetories();
   };
+
   useEffect(() => {
     getCategories();
   }, []);
 
   const categories = categoryStore.categories.map((item) => (
-    <CategoryItem key={item.idCategory} strCategory={item.strCategory} />
+    <CategoryItem key={item.idCategory} category={item} />
   ));
   return <StyledCategories>{categories}</StyledCategories>;
 });
 
-const StyledCategoryItem = styled('li')`
+const StyledCategoryItem = styled.li<StyledCategoryItemProps>`
   display: flex;
   align-items: center;
   margin: 5px;
@@ -39,6 +55,7 @@ const StyledCategoryItem = styled('li')`
   height: 50px;
   border-radius: 24px;
   transition: box-shadow 0.3s ease;
+  background-color: ${(props) => (props.clicked ? '#9999cc' : 'none')};
   cursor: pointer;
   box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.25);
   &:hover {

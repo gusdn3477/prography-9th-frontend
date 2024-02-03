@@ -26,6 +26,21 @@ class CategoryStore {
   get selectedCategories() {
     return toJS(this._selectedCategories);
   }
+
+  setCategories(selectedCategory: CategoryModel) {
+    const res = this._selectedCategories.find(
+      (item) => item.idCategory === selectedCategory.idCategory
+    );
+    if (res) {
+      this._selectedCategories = this._selectedCategories.filter(
+        (item) => item.idCategory != selectedCategory.idCategory
+      );
+    } else
+      this._selectedCategories = [
+        ...this._selectedCategories,
+        selectedCategory
+      ];
+  }
 }
 
 export const categoryStore = new CategoryStore();
