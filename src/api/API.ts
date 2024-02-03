@@ -14,10 +14,10 @@ class API {
     }
   };
 
-  getMeals = async (strCategory?: string) => {
+  getMeals = async (queryString: string) => {
     try {
       const response = await axios.get(
-        `${this._baseURL}/api/json/v1/1/filter.php?c=beef`
+        `${this._baseURL}/api/json/v1/1/filter.php?${queryString}`
       );
       return response.data.meals;
     } catch (e) {

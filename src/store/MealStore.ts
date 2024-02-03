@@ -13,10 +13,14 @@ class MealStore {
     makeAutoObservable(this);
   }
 
-  async getMeals() {
+  async getMeals(queryString: string) {
     try {
-      const response = await API.getMeals();
-      this._meals = response;
+      if (queryString) {
+        const response = await API.getMeals(queryString);
+        this._meals = response;
+        this._totalCount = response.length;
+        this._currentCount = response.length > 20 ? 20 : response.length;
+      }
     } catch (e) {
       console.log(e);
     }
@@ -24,6 +28,22 @@ class MealStore {
 
   get meals() {
     return toJS(this._meals);
+  }
+
+  get totalCount() {
+    return this._totalCount;
+  }
+
+  get currentCount() {
+    return this._currentCount;
+  }
+
+  get sortOrder() {
+    return this._sortOrder;
+  }
+
+  get numberOfVisible() {
+    return this._numberOfVisible;
   }
 }
 
