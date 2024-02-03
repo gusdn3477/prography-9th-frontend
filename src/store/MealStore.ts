@@ -6,8 +6,6 @@ class MealStore {
   private _meals: MealModel[] = [];
   private _currentCount = 0;
   private _totalCount = 0;
-  private _sortOrder: 'recent' | 'ascending' | 'decending' = 'recent';
-  private _numberOfVisible: 2 | 4 = 2;
 
   constructor() {
     makeAutoObservable(this);
@@ -15,12 +13,12 @@ class MealStore {
 
   async getMeals(queryString: string) {
     try {
-      if (queryString) {
+      if (queryString.includes('c')) {
         const response = await API.getMeals(queryString);
         this._meals = response;
         this._totalCount = response.length;
         this._currentCount = response.length > 20 ? 20 : response.length;
-      }
+      } else this.setMeals([]);
     } catch (e) {
       console.log(e);
     }
@@ -38,12 +36,8 @@ class MealStore {
     return this._currentCount;
   }
 
-  get sortOrder() {
-    return this._sortOrder;
-  }
-
-  get numberOfVisible() {
-    return this._numberOfVisible;
+  setMeals(meals: MealModel[]) {
+    this._meals = meals;
   }
 }
 
