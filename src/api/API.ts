@@ -6,7 +6,7 @@ class API {
   getCategories = async () => {
     try {
       const response = await axios.get(
-        `${this._baseURL}/api/json/v1/1/categories.php`,
+        `${this._baseURL}/api/json/v1/1/categories.php`
       );
       return response.data.categories;
     } catch (e) {
@@ -14,16 +14,11 @@ class API {
     }
   };
 
-  getItems = async (strCategory?: string) => {
+  getMeals = async (strCategory?: string) => {
     try {
-      let response = undefined;
-      if (strCategory)
-        response = await axios.get(
-          `${this._baseURL}/api/json/v1/1/filter.php?c=${strCategory}`,
-        );
-      else {
-        response = await axios.get(`${this._baseURL}/api/json/v1/1/filter.php`);
-      }
+      const response = await axios.get(
+        `${this._baseURL}/api/json/v1/1/filter.php?c=beef`
+      );
       return response.data.meals;
     } catch (e) {
       console.log(e);
