@@ -6,7 +6,7 @@ export const Main = () => {
   return (
     <S.StyledBody>
       <Category />
-      <Card />
+      {/* <Card /> */}
     </S.StyledBody>
   );
 };

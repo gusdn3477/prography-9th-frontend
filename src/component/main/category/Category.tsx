@@ -1,28 +1,54 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import styled from '@emotion/styled';
+import { categoryStore } from '../../../store/CategoryStore';
+import { observer } from 'mobx-react-lite';
 
 interface CategoryItemProps {
-  name: string;
-  thumb: string;
-  description: string;
+  strCategory: string;
 }
 
-export const CategoryItem = ({
-  name,
-  thumb,
-  description
-}: CategoryItemProps) => {
-  return <StyledCategoryItem>{name}</StyledCategoryItem>;
+export const CategoryItem = ({ strCategory }: CategoryItemProps) => {
+  return (
+    <StyledCategoryItem>
+      <b>{strCategory}</b>
+    </StyledCategoryItem>
+  );
 };
 
-export const Category = () => {
-  const [items, setItems] = useState([]);
+export const Category = observer(() => {
+  const getCategories = async () => {
+    await categoryStore.getCatetories();
+  };
+  useEffect(() => {
+    getCategories();
+  }, []);
 
-  return <></>;
-};
+  const categories = categoryStore.categories.map((item) => (
+    <CategoryItem key={item.idCategory} strCategory={item.strCategory} />
+  ));
+  return <StyledCategories>{categories}</StyledCategories>;
+});
 
 const StyledCategoryItem = styled('li')`
-  width: 100px;
-  height: 40px;
+  display: flex;
+  align-items: center;
+  margin: 5px;
+  padding: 0 10px 0 10px;
+  justify-content: center;
+  border: 1px solid #dee2e6;
+  height: 50px;
   border-radius: 24px;
+  transition: box-shadow 0.3s ease;
+  cursor: pointer;
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.25);
+  &:hover {
+    background-color: #9999cc;
+  }
+`;
+
+const StyledCategories = styled('ul')`
+  display: flex;
+  width: 840px;
+  flex-wrap: wrap;
+  list-style-type: none;
 `;
