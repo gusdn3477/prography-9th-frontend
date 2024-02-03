@@ -1,11 +1,11 @@
-export interface CategoryDTO {
+export interface CategoryModel {
   idCategory: string;
   strCategory: string;
   strCategoryThumb: string;
   strCategoryDescription: string;
 }
 
-export interface MealDto {
+export interface MealModel {
   strMeal: string;
   strMealThumb: string;
   idMeal: string;
