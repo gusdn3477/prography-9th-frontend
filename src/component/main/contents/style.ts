@@ -38,11 +38,7 @@ export const StyledCardList = styled('ul')`
 export const StyledCard = styled('li')`
   width: 215px;
   height: 215px;
-  display: flex;
-  margin: 20px 10px 20px 10px;
-  justify-content: center;
-  cursor: pointer;
-  flex-direction: column;
+  margin: 20px 10px 40px 10px;
 `;
 
 export const StyledImageWrapper = styled('div')`
