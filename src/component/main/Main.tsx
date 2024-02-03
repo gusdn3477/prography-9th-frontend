@@ -1,12 +1,14 @@
-import { Card } from './card/Card';
+import { Contents } from './contents';
 import { Category } from './category';
-import * as S from './styled';
+import * as S from './style';
 
 export const Main = () => {
   return (
-    <S.StyledBody>
-      <Category />
-      {/* <Card /> */}
-    </S.StyledBody>
+    <S.StyledMain>
+      <div>
+        <Category />
+        <Contents />
+      </div>
+    </S.StyledMain>
   );
 };
