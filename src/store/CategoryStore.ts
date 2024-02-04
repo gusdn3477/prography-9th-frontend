@@ -5,6 +5,7 @@ import { API } from '../api';
 class CategoryStore {
   private _categories: CategoryModel[] = [];
   private _selectedCategories: CategoryModel[] = [];
+  private _clickedCategories: CategoryModel[] = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -27,19 +28,28 @@ class CategoryStore {
     return toJS(this._selectedCategories);
   }
 
+  get clickedCategories() {
+    return toJS(this._clickedCategories);
+  }
+
   setCategories(selectedCategory: CategoryModel) {
     const res = this._selectedCategories.find(
       (item) => item.idCategory === selectedCategory.idCategory
     );
     if (res) {
       this._selectedCategories = this._selectedCategories.filter(
-        (item) => item.idCategory != selectedCategory.idCategory
+        (item) => item.idCategory !== selectedCategory.idCategory
       );
-    } else
+    } else {
       this._selectedCategories = [
         ...this._selectedCategories,
         selectedCategory
       ];
+    }
+  }
+
+  setClickedCategories(category: CategoryModel) {
+    this._clickedCategories = [...this._clickedCategories, category];
   }
 }
 

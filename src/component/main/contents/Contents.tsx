@@ -4,14 +4,13 @@ import {
   StyledContents,
   StyledDropdown,
   StyledOption,
-  StyledSelect
+  StyledSelect,
+  StyledSpan
 } from './style';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { mealStore } from '../../../store/MealStore';
 import { MealCard } from '.';
 import { categoryStore } from '../../../store/CategoryStore';
-import qs from 'qs';
-import { CategoryModel } from '../../../model';
 
 export const Contents = observer(() => {
   const [visibleCount, setVisibleCount] = useState<1 | 2 | 4>(4);
@@ -31,33 +30,14 @@ export const Contents = observer(() => {
       setFilter(filter);
   };
 
-  const getMeals = async (category: CategoryModel[]) => {
-    const categoryNames = category.map((item) => item.strCategory);
-    await mealStore.getMeals(
-      qs.stringify(
-        {
-          c: categoryNames
-        },
-        { arrayFormat: 'repeat' }
-      )
-    );
-  };
-
-  const mealCard = mealStore.meals.map((meal) => (
-    <MealCard meal={meal} key={meal.idMeal} />
-  ));
-
-  useEffect(() => {
-    getMeals(categoryStore.selectedCategories);
-  }, [categoryStore.selectedCategories]);
-
   return (
     <StyledContents>
       <StyledDropdown>
         <div>
-          <span>
-            {mealStore.currentCount} / {mealStore.totalCount}개 조회
-          </span>
+          <strong>
+            <StyledSpan>{mealStore.currentCount}</StyledSpan> /
+            <StyledSpan>{mealStore.totalCount}</StyledSpan> 개 조회
+          </strong>
         </div>
         <div>
           <StyledSelect value={filter} onChange={handleFilterChange}>
@@ -75,7 +55,11 @@ export const Contents = observer(() => {
           </StyledSelect>
         </div>
       </StyledDropdown>
-      <StyledCardList>{mealCard}</StyledCardList>
+      <StyledCardList>
+        {mealStore.meals.map((meal) => (
+          <MealCard meal={meal} key={meal.idMeal} />
+        ))}
+      </StyledCardList>
     </StyledContents>
   );
 });

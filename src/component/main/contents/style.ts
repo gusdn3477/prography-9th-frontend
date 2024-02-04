@@ -61,3 +61,7 @@ export const StyledImageWrapper = styled('div')`
 export const StyledMealName = styled.strong`
   font-size: 12px;
 `;
+
+export const StyledSpan = styled.span`
+  text-decoration: underline;
+`;
