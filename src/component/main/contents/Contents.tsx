@@ -13,7 +13,7 @@ import { MealCard } from '.';
 import { isMobile } from 'react-device-detect';
 
 export const Contents = observer(() => {
-  const [visibleCount, setVisibleCount] = useState<1 | 2 | 4>(4);
+  const [visibleCount, setVisibleCount] = useState<1 | 2 | 4>(isMobile ? 1 : 4);
   const [filter, setFilter] = useState<'now' | 'ascending' | 'decending'>(
     'now'
   );
@@ -49,6 +49,7 @@ export const Contents = observer(() => {
             <StyledSelect
               value={visibleCount}
               onChange={handleVisibleCountChange}
+              style={{ marginLeft: '10px' }}
             >
               <StyledOption value="2">2개씩 보기</StyledOption>
               <StyledOption value="4">4개씩 보기</StyledOption>
@@ -58,7 +59,7 @@ export const Contents = observer(() => {
       </StyledDropdown>
       <StyledCardList>
         {mealStore.meals.map((meal) => (
-          <MealCard meal={meal} key={meal.idMeal} />
+          <MealCard meal={meal} key={meal.idMeal} visibleCount={visibleCount} />
         ))}
       </StyledCardList>
     </StyledContents>

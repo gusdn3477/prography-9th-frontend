@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { MealCardProps } from '.';
 
 export const StyledContents = styled('div')`
   margin-top: 40px;
@@ -35,9 +36,9 @@ export const StyledCardList = styled('ul')`
   padding-left: 0px;
 `;
 
-export const StyledCard = styled('li')`
-  width: 215px;
-  height: 215px;
+export const StyledCard = styled.li<MealCardProps>`
+  width: ${(props) => 860 / props.visibleCount}px;
+  height: ${(props) => 860 / props.visibleCount}px;
   margin: 20px 10px 40px 10px;
 `;
 

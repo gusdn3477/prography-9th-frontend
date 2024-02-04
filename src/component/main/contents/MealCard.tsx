@@ -1,12 +1,13 @@
 import { MealModel } from '../../../model';
 import { StyledCard, StyledImageWrapper, StyledMealName } from './style';
 
-interface MealCardProps {
+export interface MealCardProps {
   meal: MealModel;
+  visibleCount: number;
 }
-export const MealCard = ({ meal }: MealCardProps) => {
+export const MealCard = ({ meal, visibleCount }: MealCardProps) => {
   return (
-    <StyledCard>
+    <StyledCard meal={meal} visibleCount={visibleCount}>
       <StyledImageWrapper>
         <img src={meal.strMealThumb} alt={meal.strMeal} />
       </StyledImageWrapper>
