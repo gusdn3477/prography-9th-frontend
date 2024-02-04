@@ -1,4 +1,4 @@
-import { MealModel } from '../../model';
+import { MealModel } from '../model';
 
 export const sort = (
   data: MealModel[],

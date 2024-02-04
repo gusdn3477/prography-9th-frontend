@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { MealModel } from '../../../model';
 import { StyledCard, StyledImageWrapper, StyledMealName } from './style';
 
@@ -5,7 +6,7 @@ export interface MealCardProps {
   meal: MealModel;
   visibleCount: number;
 }
-export const MealCard = ({ meal, visibleCount }: MealCardProps) => {
+export const MealCard = forwardRef(({ meal, visibleCount }: MealCardProps) => {
   return (
     <StyledCard meal={meal} visibleCount={visibleCount}>
       <StyledImageWrapper>
@@ -14,4 +15,4 @@ export const MealCard = ({ meal, visibleCount }: MealCardProps) => {
       <StyledMealName>{meal.strMeal}</StyledMealName>
     </StyledCard>
   );
-};
+});

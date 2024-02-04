@@ -7,19 +7,27 @@ import {
   StyledSelect,
   StyledSpan
 } from './style';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import { mealStore } from '../../../store/MealStore';
 import { MealCard } from '.';
 import { isMobile } from 'react-device-detect';
-import { sort } from '../../util/sort';
+import { sort } from '../../../util/sort';
 import { categoryStore } from '../../../store/CategoryStore';
 import { MealModel } from '../../../model';
+import useIntersectionObserver from '../../hooks/useIntersectionObserver';
 
 export const Contents = observer(() => {
   const [visibleCount, setVisibleCount] = useState<1 | 2 | 4>(isMobile ? 1 : 4);
   const [filter, setFilter] = useState<'now' | 'ascending' | 'decending'>(
     'now'
   );
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [nextIndex, setNextIndex] = useState(1);
+  const target = useRef();
+
+  const [observe, unobserve] = useIntersectionObserver(() => {
+    setNextIndex((nextIndex) => nextIndex + 1);
+  });
 
   // 사용자가 select에서 선택할 때 호출될 함수
   const handleVisibleCountChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -52,9 +60,11 @@ export const Contents = observer(() => {
     return _sortedMeal;
   };
 
-  const mealList = filteredMeal().map((meal) => (
-    <MealCard meal={meal} key={meal.idMeal} visibleCount={visibleCount} />
-  ));
+  const mealList = filteredMeal()
+    .slice(currentIndex * 20, nextIndex * 20)
+    .map((meal) => (
+      <MealCard meal={meal} key={meal.idMeal} visibleCount={visibleCount} />
+    ));
 
   return (
     <StyledContents>
