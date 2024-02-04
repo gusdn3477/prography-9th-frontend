@@ -10,7 +10,7 @@ import {
 import { ChangeEvent, useState } from 'react';
 import { mealStore } from '../../../store/MealStore';
 import { MealCard } from '.';
-import { categoryStore } from '../../../store/CategoryStore';
+import { isMobile } from 'react-device-detect';
 
 export const Contents = observer(() => {
   const [visibleCount, setVisibleCount] = useState<1 | 2 | 4>(4);
@@ -45,14 +45,15 @@ export const Contents = observer(() => {
             <StyledOption value="ascending">이름 오름차순</StyledOption>
             <StyledOption value="decending">이름 내림차순</StyledOption>
           </StyledSelect>
-
-          <StyledSelect
-            value={visibleCount}
-            onChange={handleVisibleCountChange}
-          >
-            <StyledOption value="2">2개씩 보기</StyledOption>
-            <StyledOption value="4">4개씩 보기</StyledOption>
-          </StyledSelect>
+          {!isMobile && (
+            <StyledSelect
+              value={visibleCount}
+              onChange={handleVisibleCountChange}
+            >
+              <StyledOption value="2">2개씩 보기</StyledOption>
+              <StyledOption value="4">4개씩 보기</StyledOption>
+            </StyledSelect>
+          )}
         </div>
       </StyledDropdown>
       <StyledCardList>
