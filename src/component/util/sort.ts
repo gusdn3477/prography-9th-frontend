@@ -6,7 +6,7 @@ export const sort = (
 ) => {
   const _data = [...data];
   if (filter === 'now') {
-    _data.sort((a, b) => Number(a.idMeal) - Number(b.idMeal));
+    _data.sort((a, b) => Number(b.idMeal) - Number(a.idMeal));
   } else if (filter === 'ascending') {
     _data.sort((a, b) => a.strMeal.localeCompare(b.strMeal));
   } else {
