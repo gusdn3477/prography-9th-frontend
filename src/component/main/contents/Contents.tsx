@@ -11,6 +11,7 @@ import { ChangeEvent, useState } from 'react';
 import { mealStore } from '../../../store/MealStore';
 import { MealCard } from '.';
 import { isMobile } from 'react-device-detect';
+import { sort } from '../../util/sort';
 
 export const Contents = observer(() => {
   const [visibleCount, setVisibleCount] = useState<1 | 2 | 4>(isMobile ? 1 : 4);
@@ -29,6 +30,12 @@ export const Contents = observer(() => {
     if (filter === 'now' || filter === 'ascending' || filter === 'decending')
       setFilter(filter);
   };
+
+  const meals = sort(mealStore.meals, filter);
+
+  const mealList = meals.map((meal) => (
+    <MealCard meal={meal} key={meal.idMeal} visibleCount={visibleCount} />
+  ));
 
   return (
     <StyledContents>
@@ -57,11 +64,7 @@ export const Contents = observer(() => {
           )}
         </div>
       </StyledDropdown>
-      <StyledCardList>
-        {mealStore.meals.map((meal) => (
-          <MealCard meal={meal} key={meal.idMeal} visibleCount={visibleCount} />
-        ))}
-      </StyledCardList>
+      <StyledCardList>{mealList}</StyledCardList>
     </StyledContents>
   );
 });
