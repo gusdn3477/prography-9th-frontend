@@ -4,6 +4,7 @@ import { API } from '../api';
 
 class MealStore {
   private _meals: MealModel[] = [];
+  private _filterdMeals: MealModel[] = [];
   private _mealsPerCategory = new Map<string, MealModel[]>();
 
   constructor() {
@@ -31,15 +32,19 @@ class MealStore {
   }
 
   get totalCount() {
-    return this._meals.length;
+    return this._filterdMeals.length;
   }
 
   get currentCount() {
-    return this._meals.length > 20 ? 20 : this._meals.length;
+    return this._filterdMeals.length > 20 ? 20 : this._filterdMeals.length;
   }
 
   setMeals(meals: MealModel[]) {
     this._meals = meals;
+  }
+
+  setFilteredMeals(meals: MealModel[]) {
+    this._filterdMeals = meals;
   }
 
   setMealsPerCategory(id: string, meals: MealModel[]) {

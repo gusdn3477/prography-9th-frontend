@@ -7,11 +7,13 @@ import {
   StyledSelect,
   StyledSpan
 } from './style';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { mealStore } from '../../../store/MealStore';
 import { MealCard } from '.';
 import { isMobile } from 'react-device-detect';
 import { sort } from '../../util/sort';
+import { categoryStore } from '../../../store/CategoryStore';
+import { MealModel } from '../../../model';
 
 export const Contents = observer(() => {
   const [visibleCount, setVisibleCount] = useState<1 | 2 | 4>(isMobile ? 1 : 4);
@@ -31,9 +33,26 @@ export const Contents = observer(() => {
       setFilter(filter);
   };
 
-  const meals = sort(mealStore.meals, filter);
+  const filteredMeal = () => {
+    const _meal: MealModel[] = [];
+    for (let i = 0; i < categoryStore.selectedCategories.length; i++) {
+      if (
+        mealStore.mealsPerCategory.has(
+          categoryStore.selectedCategories[i].idCategory
+        )
+      ) {
+        const mealArray = mealStore.mealsPerCategory.get(
+          categoryStore.selectedCategories[i].idCategory
+        );
+        if (mealArray) _meal.push(...mealArray);
+      }
+    }
+    const _sortedMeal = sort(_meal, filter);
+    mealStore.setFilteredMeals(_sortedMeal);
+    return _sortedMeal;
+  };
 
-  const mealList = meals.map((meal) => (
+  const mealList = filteredMeal().map((meal) => (
     <MealCard meal={meal} key={meal.idMeal} visibleCount={visibleCount} />
   ));
 
